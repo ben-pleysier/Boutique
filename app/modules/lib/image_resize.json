@@ -1,0 +1,69 @@
+{
+  "meta": {
+    "$_PARAM": [
+      {
+        "type": "text",
+        "name": "path"
+      },
+      {
+        "type": "number",
+        "name": "width"
+      },
+      {
+        "type": "text",
+        "name": "folder"
+      },
+      {
+        "type": "text",
+        "name": "name"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      {
+        "name": "image",
+        "module": "image",
+        "action": "load",
+        "options": {
+          "path": "{{$_PARAM.path}}"
+        },
+        "outputType": "object",
+        "meta": [
+          {
+            "name": "width",
+            "type": "number"
+          },
+          {
+            "name": "height",
+            "type": "number"
+          }
+        ]
+      },
+      {
+        "name": "",
+        "module": "image",
+        "action": "resize",
+        "options": {
+          "instance": "image",
+          "width": "{{$_PARAM.width}}"
+        }
+      },
+      {
+        "name": "newImage",
+        "module": "image",
+        "action": "save",
+        "options": {
+          "instance": "image",
+          "format": "webp",
+          "path": "/public/uploads/images/{{$_PARAM.folder}}",
+          "template": "{{$_PARAM.name}}.webp",
+          "overwrite": true
+        }
+      }
+    ]
+  },
+  "usedModules": {
+    "sharp": "^0.29.3"
+  }
+}

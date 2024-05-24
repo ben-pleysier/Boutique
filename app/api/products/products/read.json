@@ -1,0 +1,84 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "queryProducts",
+      "module": "dbconnector",
+      "action": "select",
+      "options": {
+        "connection": "db",
+        "sql": {
+          "type": "select",
+          "columns": [
+            {
+              "table": "category_products",
+              "column": "*"
+            }
+          ],
+          "params": [],
+          "table": {
+            "name": "category_products"
+          },
+          "primary": "id",
+          "joins": [],
+          "query": "select * from `category_products`"
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "type": "number",
+          "name": "id"
+        },
+        {
+          "type": "text",
+          "name": "name"
+        },
+        {
+          "type": "number",
+          "name": "price"
+        },
+        {
+          "type": "text",
+          "name": "short_description"
+        },
+        {
+          "type": "text",
+          "name": "long_description"
+        },
+        {
+          "type": "text",
+          "name": "image"
+        },
+        {
+          "type": "date",
+          "name": "update_date"
+        },
+        {
+          "type": "boolean",
+          "name": "live"
+        },
+        {
+          "type": "boolean",
+          "name": "featured"
+        },
+        {
+          "type": "number",
+          "name": "category_id"
+        }
+      ],
+      "outputType": "array"
+    }
+  }
+}

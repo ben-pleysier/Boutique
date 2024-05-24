@@ -1,0 +1,269 @@
+{
+  "meta": {
+    "$_POST": [
+      {
+        "type": "number",
+        "fieldName": "product_id",
+        "options": {
+          "rules": {
+            "core:required": {}
+          }
+        },
+        "name": "product_id"
+      },
+      {
+        "type": "text",
+        "fieldName": "name",
+        "options": {
+          "rules": {
+            "core:required": {}
+          }
+        },
+        "name": "name"
+      },
+      {
+        "type": "number",
+        "fieldName": "price",
+        "options": {
+          "rules": {
+            "core:required": {}
+          }
+        },
+        "name": "price"
+      },
+      {
+        "type": "number",
+        "fieldName": "quantity",
+        "options": {
+          "rules": {
+            "core:required": {}
+          }
+        },
+        "name": "quantity"
+      },
+      {
+        "type": "number",
+        "fieldName": "order_id",
+        "options": {
+          "rules": {
+            "core:required": {}
+          }
+        },
+        "name": "order_id"
+      },
+      {
+        "type": "number",
+        "name": "id"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "",
+      "module": "core",
+      "action": "condition",
+      "options": {
+        "if": "{{$_POST.id>=1}}",
+        "then": {
+          "steps": {
+            "name": "updateOrderItem",
+            "module": "dbupdater",
+            "action": "update",
+            "options": {
+              "connection": "db",
+              "sql": {
+                "type": "update",
+                "values": [
+                  {
+                    "table": "customer_order_items",
+                    "column": "product_id",
+                    "type": "number",
+                    "value": "{{$_POST.product_id}}"
+                  },
+                  {
+                    "table": "customer_order_items",
+                    "column": "name",
+                    "type": "text",
+                    "value": "{{$_POST.name}}"
+                  },
+                  {
+                    "table": "customer_order_items",
+                    "column": "price",
+                    "type": "number",
+                    "value": "{{$_POST.price}}"
+                  },
+                  {
+                    "table": "customer_order_items",
+                    "column": "quantity",
+                    "type": "number",
+                    "value": "{{$_POST.quantity}}"
+                  },
+                  {
+                    "table": "customer_order_items",
+                    "column": "order_id",
+                    "type": "number",
+                    "value": "{{$_POST.order_id}}"
+                  }
+                ],
+                "table": "customer_order_items",
+                "wheres": {
+                  "condition": "AND",
+                  "rules": [
+                    {
+                      "id": "id",
+                      "type": "double",
+                      "operator": "equal",
+                      "value": "{{$_POST.id}}",
+                      "data": {
+                        "column": "id"
+                      },
+                      "operation": "="
+                    }
+                  ]
+                },
+                "returning": "id",
+                "query": "update `customer_order_items` set `product_id` = ?, `name` = ?, `price` = ?, `quantity` = ?, `order_id` = ? where `id` = ?",
+                "params": [
+                  {
+                    "name": ":P1",
+                    "type": "expression",
+                    "value": "{{$_POST.product_id}}",
+                    "test": ""
+                  },
+                  {
+                    "name": ":P2",
+                    "type": "expression",
+                    "value": "{{$_POST.name}}",
+                    "test": ""
+                  },
+                  {
+                    "name": ":P3",
+                    "type": "expression",
+                    "value": "{{$_POST.price}}",
+                    "test": ""
+                  },
+                  {
+                    "name": ":P4",
+                    "type": "expression",
+                    "value": "{{$_POST.quantity}}",
+                    "test": ""
+                  },
+                  {
+                    "name": ":P5",
+                    "type": "expression",
+                    "value": "{{$_POST.order_id}}",
+                    "test": ""
+                  },
+                  {
+                    "operator": "equal",
+                    "type": "expression",
+                    "name": ":P6",
+                    "value": "{{$_POST.id}}",
+                    "test": ""
+                  }
+                ]
+              }
+            },
+            "meta": [
+              {
+                "name": "affected",
+                "type": "number"
+              }
+            ]
+          }
+        },
+        "else": {
+          "steps": {
+            "name": "insertOrderItem",
+            "module": "dbupdater",
+            "action": "insert",
+            "options": {
+              "connection": "db",
+              "sql": {
+                "type": "insert",
+                "values": [
+                  {
+                    "table": "customer_order_items",
+                    "column": "product_id",
+                    "type": "number",
+                    "value": "{{$_POST.product_id}}"
+                  },
+                  {
+                    "table": "customer_order_items",
+                    "column": "name",
+                    "type": "text",
+                    "value": "{{$_POST.name}}"
+                  },
+                  {
+                    "table": "customer_order_items",
+                    "column": "price",
+                    "type": "number",
+                    "value": "{{$_POST.price}}"
+                  },
+                  {
+                    "table": "customer_order_items",
+                    "column": "quantity",
+                    "type": "number",
+                    "value": "{{$_POST.quantity}}"
+                  },
+                  {
+                    "table": "customer_order_items",
+                    "column": "order_id",
+                    "type": "number",
+                    "value": "{{$_POST.order_id}}"
+                  }
+                ],
+                "table": "customer_order_items",
+                "returning": "id",
+                "query": "insert into `customer_order_items` (`name`, `order_id`, `price`, `product_id`, `quantity`) values (?, ?, ?, ?, ?)",
+                "params": [
+                  {
+                    "name": ":P1",
+                    "type": "expression",
+                    "value": "{{$_POST.product_id}}",
+                    "test": ""
+                  },
+                  {
+                    "name": ":P2",
+                    "type": "expression",
+                    "value": "{{$_POST.name}}",
+                    "test": ""
+                  },
+                  {
+                    "name": ":P3",
+                    "type": "expression",
+                    "value": "{{$_POST.price}}",
+                    "test": ""
+                  },
+                  {
+                    "name": ":P4",
+                    "type": "expression",
+                    "value": "{{$_POST.quantity}}",
+                    "test": ""
+                  },
+                  {
+                    "name": ":P5",
+                    "type": "expression",
+                    "value": "{{$_POST.order_id}}",
+                    "test": ""
+                  }
+                ]
+              }
+            },
+            "meta": [
+              {
+                "name": "identity",
+                "type": "text"
+              },
+              {
+                "name": "affected",
+                "type": "number"
+              }
+            ]
+          }
+        }
+      },
+      "outputType": "boolean"
+    }
+  }
+}
