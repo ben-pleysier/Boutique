@@ -1,0 +1,346 @@
+{
+  "meta": {
+    "$_POST": [
+      {
+        "type": "number",
+        "options": {
+          "rules": {
+            "core:required": {}
+          }
+        },
+        "name": "amount"
+      },
+      {
+        "type": "text",
+        "options": {
+          "rules": {
+            "core:required": {}
+          }
+        },
+        "name": "street"
+      },
+      {
+        "type": "text",
+        "options": {
+          "rules": {
+            "core:required": {}
+          }
+        },
+        "name": "city"
+      },
+      {
+        "type": "text",
+        "options": {
+          "rules": {
+            "core:required": {}
+          }
+        },
+        "name": "postcode"
+      },
+      {
+        "type": "text",
+        "options": {
+          "rules": {
+            "core:required": {}
+          }
+        },
+        "name": "country"
+      },
+      {
+        "type": "date",
+        "name": "shipped_date"
+      },
+      {
+        "type": "text",
+        "name": "tracking_number"
+      },
+      {
+        "type": "number",
+        "fieldName": "customer_id",
+        "options": {
+          "rules": {
+            "core:required": {}
+          }
+        },
+        "name": "customer_id"
+      },
+      {
+        "type": "number",
+        "fieldName": "id",
+        "options": {
+          "rules": {}
+        },
+        "name": "id"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "",
+      "module": "core",
+      "action": "condition",
+      "options": {
+        "if": "{{$_POST.id>=1}}",
+        "then": {
+          "steps": {
+            "name": "updateOrder",
+            "module": "dbupdater",
+            "action": "update",
+            "options": {
+              "connection": "db",
+              "sql": {
+                "type": "update",
+                "values": [
+                  {
+                    "table": "customer_orders",
+                    "column": "amount",
+                    "type": "number",
+                    "value": "{{$_POST.amount}}"
+                  },
+                  {
+                    "table": "customer_orders",
+                    "column": "street",
+                    "type": "text",
+                    "value": "{{$_POST.street}}"
+                  },
+                  {
+                    "table": "customer_orders",
+                    "column": "city",
+                    "type": "text",
+                    "value": "{{$_POST.city}}"
+                  },
+                  {
+                    "table": "customer_orders",
+                    "column": "postcode",
+                    "type": "text",
+                    "value": "{{$_POST.postcode}}"
+                  },
+                  {
+                    "table": "customer_orders",
+                    "column": "country",
+                    "type": "text",
+                    "value": "{{$_POST.country}}"
+                  },
+                  {
+                    "table": "customer_orders",
+                    "column": "shipped_date",
+                    "type": "date",
+                    "value": "{{$_POST.shipped_date}}"
+                  },
+                  {
+                    "table": "customer_orders",
+                    "column": "tracking_number",
+                    "type": "text",
+                    "value": "{{$_POST.tracking_number}}"
+                  },
+                  {
+                    "table": "customer_orders",
+                    "column": "customer_id",
+                    "type": "number",
+                    "value": "{{$_POST.customer_id}}"
+                  }
+                ],
+                "table": "customer_orders",
+                "wheres": {
+                  "condition": "AND",
+                  "rules": [
+                    {
+                      "id": "id",
+                      "type": "double",
+                      "operator": "equal",
+                      "value": "{{$_POST.id}}",
+                      "data": {
+                        "column": "id"
+                      },
+                      "operation": "="
+                    }
+                  ]
+                },
+                "returning": "id",
+                "query": "update `customer_orders` set `amount` = ?, `street` = ?, `city` = ?, `postcode` = ?, `country` = ?, `shipped_date` = ?, `tracking_number` = ?, `customer_id` = ? where `id` = ? returning `id`",
+                "params": [
+                  {
+                    "name": ":P1",
+                    "type": "expression",
+                    "value": "{{$_POST.amount}}",
+                    "test": ""
+                  },
+                  {
+                    "name": ":P2",
+                    "type": "expression",
+                    "value": "{{$_POST.street}}",
+                    "test": ""
+                  },
+                  {
+                    "name": ":P3",
+                    "type": "expression",
+                    "value": "{{$_POST.city}}",
+                    "test": ""
+                  },
+                  {
+                    "name": ":P4",
+                    "type": "expression",
+                    "value": "{{$_POST.postcode}}",
+                    "test": ""
+                  },
+                  {
+                    "name": ":P5",
+                    "type": "expression",
+                    "value": "{{$_POST.country}}",
+                    "test": ""
+                  },
+                  {
+                    "name": ":P6",
+                    "type": "expression",
+                    "value": "{{$_POST.shipped_date}}",
+                    "test": ""
+                  },
+                  {
+                    "name": ":P7",
+                    "type": "expression",
+                    "value": "{{$_POST.tracking_number}}",
+                    "test": ""
+                  },
+                  {
+                    "name": ":P8",
+                    "type": "expression",
+                    "value": "{{$_POST.customer_id}}",
+                    "test": ""
+                  },
+                  {
+                    "operator": "equal",
+                    "type": "expression",
+                    "name": ":P9",
+                    "value": "{{$_POST.id}}",
+                    "test": ""
+                  }
+                ]
+              }
+            },
+            "meta": [
+              {
+                "name": "affected",
+                "type": "number"
+              }
+            ]
+          }
+        },
+        "else": {
+          "steps": {
+            "name": "insertOrder",
+            "module": "dbupdater",
+            "action": "insert",
+            "options": {
+              "connection": "db",
+              "sql": {
+                "type": "insert",
+                "values": [
+                  {
+                    "table": "customer_orders",
+                    "column": "order_date",
+                    "type": "date",
+                    "value": "{{NOW}}"
+                  },
+                  {
+                    "table": "customer_orders",
+                    "column": "amount",
+                    "type": "number",
+                    "value": "{{$_POST.amount}}"
+                  },
+                  {
+                    "table": "customer_orders",
+                    "column": "street",
+                    "type": "text",
+                    "value": "{{$_POST.street}}"
+                  },
+                  {
+                    "table": "customer_orders",
+                    "column": "city",
+                    "type": "text",
+                    "value": "{{$_POST.city}}"
+                  },
+                  {
+                    "table": "customer_orders",
+                    "column": "postcode",
+                    "type": "text",
+                    "value": "{{$_POST.postcode}}"
+                  },
+                  {
+                    "table": "customer_orders",
+                    "column": "country",
+                    "type": "text",
+                    "value": "{{$_POST.country}}"
+                  },
+                  {
+                    "table": "customer_orders",
+                    "column": "customer_id",
+                    "type": "number",
+                    "value": "{{$_POST.customer_id}}"
+                  }
+                ],
+                "table": "customer_orders",
+                "returning": "id",
+                "query": "insert into `customer_orders` (`amount`, `city`, `country`, `customer_id`, `order_date`, `postcode`, `street`) values (?, ?, ?, ?, ?, ?, ?) returning `id`",
+                "params": [
+                  {
+                    "name": ":P1",
+                    "type": "expression",
+                    "value": "{{NOW}}",
+                    "test": ""
+                  },
+                  {
+                    "name": ":P2",
+                    "type": "expression",
+                    "value": "{{$_POST.amount}}",
+                    "test": ""
+                  },
+                  {
+                    "name": ":P3",
+                    "type": "expression",
+                    "value": "{{$_POST.street}}",
+                    "test": ""
+                  },
+                  {
+                    "name": ":P4",
+                    "type": "expression",
+                    "value": "{{$_POST.city}}",
+                    "test": ""
+                  },
+                  {
+                    "name": ":P5",
+                    "type": "expression",
+                    "value": "{{$_POST.postcode}}",
+                    "test": ""
+                  },
+                  {
+                    "name": ":P6",
+                    "type": "expression",
+                    "value": "{{$_POST.country}}",
+                    "test": ""
+                  },
+                  {
+                    "name": ":P7",
+                    "type": "expression",
+                    "value": "{{$_POST.customer_id}}",
+                    "test": ""
+                  }
+                ]
+              }
+            },
+            "meta": [
+              {
+                "name": "identity",
+                "type": "text"
+              },
+              {
+                "name": "affected",
+                "type": "number"
+              }
+            ]
+          }
+        }
+      },
+      "outputType": "boolean"
+    }
+  }
+}
