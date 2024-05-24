@@ -1,0 +1,174 @@
+{
+  "type": "sqlite3",
+  "connection": {
+    "filename": "/db.sqlite3"
+  },
+  "direct": true,
+  "schema": {
+    "tables": {
+      "categories": {
+        "db": {},
+        "columns": {
+          "id": {
+            "db": {
+              "type": "increments",
+              "primary": true,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "name": {
+            "db": {
+              "type": "string",
+              "maxLength": 50,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "short_description": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "long_description": {
+            "db": {
+              "type": "text",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "image": {
+            "db": {
+              "type": "string",
+              "maxLength": 100,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          }
+        },
+        "sub": {
+          "category_products": "category_id"
+        }
+      },
+      "customers": {
+        "db": {},
+        "sub": {
+          "customer_orders": "customer_id"
+        }
+      },
+      "category_products": {
+        "db": {},
+        "columns": {
+          "id": {
+            "db": {
+              "type": "increments",
+              "primary": true,
+              "unique": false,
+              "nullable": false
+            }
+          },
+          "name": {
+            "db": {
+              "type": "string",
+              "maxLength": 100,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "price": {
+            "db": {
+              "type": "float",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "short_description": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "long_description": {
+            "db": {
+              "type": "text",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "image": {
+            "db": {
+              "type": "string",
+              "maxLength": 100,
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "update_date": {
+            "db": {
+              "type": "date",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "live": {
+            "db": {
+              "type": "boolean",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "featured": {
+            "db": {
+              "type": "boolean",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
+          },
+          "category_id": {
+            "db": {
+              "type": "reference",
+              "primary": false,
+              "unique": false,
+              "nullable": true,
+              "references": "id",
+              "inTable": "categories",
+              "referenceType": "integer",
+              "onUpdate": "CASCADE",
+              "onDelete": "CASCADE"
+            }
+          }
+        },
+        "parent": "categories"
+      },
+      "customer_order_items": {
+        "db": {},
+        "parent": "customer_orders"
+      },
+      "customer_orders": {
+        "db": {},
+        "sub": {
+          "customer_order_items": "order_id"
+        },
+        "parent": "customers"
+      }
+    },
+    "views": {}
+  }
+}

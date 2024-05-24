@@ -1,0 +1,185 @@
+{
+  "meta": {
+    "$_POST": [
+      {
+        "type": "text",
+        "fieldName": "name",
+        "options": {
+          "rules": {
+            "core:required": {}
+          }
+        },
+        "name": "name"
+      },
+      {
+        "type": "text",
+        "fieldName": "short_description",
+        "name": "short_description"
+      },
+      {
+        "type": "text",
+        "fieldName": "long_description",
+        "name": "long_description"
+      },
+      {
+        "type": "text",
+        "fieldName": "image",
+        "name": "image"
+      },
+      {
+        "type": "number",
+        "fieldName": "id",
+        "name": "id"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "",
+      "module": "core",
+      "action": "condition",
+      "options": {
+        "if": "{{$_POST.id>=1}}",
+        "then": {
+          "steps": {
+            "name": "updateCategory",
+            "module": "dbupdater",
+            "action": "update",
+            "options": {
+              "connection": "db",
+              "sql": {
+                "type": "update",
+                "values": [
+                  {
+                    "table": "categories",
+                    "column": "name",
+                    "type": "text",
+                    "value": "{{$_POST.name}}"
+                  },
+                  {
+                    "table": "categories",
+                    "column": "short_description",
+                    "type": "text",
+                    "value": "{{$_POST.short_description}}"
+                  },
+                  {
+                    "table": "categories",
+                    "column": "long_description",
+                    "type": "text",
+                    "value": "{{$_POST.long_description}}"
+                  },
+                  {
+                    "table": "categories",
+                    "column": "image",
+                    "type": "text",
+                    "value": "{{$_POST.image}}"
+                  }
+                ],
+                "table": "categories",
+                "wheres": {
+                  "condition": "AND",
+                  "rules": [
+                    {
+                      "id": "id",
+                      "type": "double",
+                      "operator": "equal",
+                      "value": "{{$_POST.id}}",
+                      "data": {
+                        "column": "id"
+                      },
+                      "operation": "="
+                    }
+                  ]
+                },
+                "returning": "id",
+                "query": "update `categories` set `name` = ?, `short_description` = ?, `long_description` = ?, `image` = ? where `id` = ? returning `id`",
+                "params": [
+                  {
+                    "name": ":P1",
+                    "type": "expression",
+                    "value": "{{$_POST.name}}",
+                    "test": ""
+                  },
+                  {
+                    "name": ":P2",
+                    "type": "expression",
+                    "value": "{{$_POST.short_description}}",
+                    "test": ""
+                  },
+                  {
+                    "name": ":P3",
+                    "type": "expression",
+                    "value": "{{$_POST.long_description}}",
+                    "test": ""
+                  },
+                  {
+                    "name": ":P4",
+                    "type": "expression",
+                    "value": "{{$_POST.image}}",
+                    "test": ""
+                  },
+                  {
+                    "operator": "equal",
+                    "type": "expression",
+                    "name": ":P5",
+                    "value": "{{$_POST.id}}",
+                    "test": ""
+                  }
+                ]
+              }
+            },
+            "meta": [
+              {
+                "name": "affected",
+                "type": "number"
+              }
+            ]
+          }
+        },
+        "else": {
+          "steps": {
+            "name": "insertCategory",
+            "module": "dbupdater",
+            "action": "insert",
+            "options": {
+              "connection": "db",
+              "sql": {
+                "type": "insert",
+                "values": [
+                  {
+                    "table": "categories",
+                    "column": "name",
+                    "type": "text",
+                    "value": "{{$_POST.name}}"
+                  }
+                ],
+                "table": "categories",
+                "returning": "id",
+                "query": "insert into `categories` (`name`) values (?) returning `id`",
+                "params": [
+                  {
+                    "name": ":P1",
+                    "type": "expression",
+                    "value": "{{$_POST.name}}",
+                    "test": ""
+                  }
+                ]
+              }
+            },
+            "meta": [
+              {
+                "name": "identity",
+                "type": "text"
+              },
+              {
+                "name": "affected",
+                "type": "number"
+              }
+            ]
+          }
+        }
+      },
+      "outputType": "boolean"
+    }
+  }
+}
