@@ -1,0 +1,87 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "filter"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "queryFilteredProduct",
+      "module": "dbconnector",
+      "action": "single",
+      "options": {
+        "connection": "db",
+        "sql": {
+          "type": "select",
+          "columns": [
+            {
+              "table": "category_products",
+              "column": "name"
+            },
+            {
+              "table": "category_products",
+              "column": "price"
+            }
+          ],
+          "params": [
+            {
+              "operator": "equal",
+              "type": "expression",
+              "name": ":P1",
+              "value": "{{$_GET.filter}}",
+              "test": ""
+            }
+          ],
+          "table": {
+            "name": "category_products"
+          },
+          "primary": "id",
+          "joins": [],
+          "wheres": {
+            "condition": "AND",
+            "rules": [
+              {
+                "id": "category_products.id",
+                "field": "category_products.id",
+                "type": "double",
+                "operator": "equal",
+                "value": "{{$_GET.filter}}",
+                "data": {
+                  "table": "category_products",
+                  "column": "id",
+                  "type": "number",
+                  "columnObj": {
+                    "type": "increments",
+                    "primary": true,
+                    "unique": false,
+                    "nullable": false,
+                    "name": "id"
+                  }
+                },
+                "operation": "="
+              }
+            ],
+            "conditional": null,
+            "valid": true
+          },
+          "query": "select `name`, `price` from `category_products` where `category_products`.`id` = ?"
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "type": "text",
+          "name": "name"
+        },
+        {
+          "type": "number",
+          "name": "price"
+        }
+      ],
+      "outputType": "object"
+    }
+  }
+}

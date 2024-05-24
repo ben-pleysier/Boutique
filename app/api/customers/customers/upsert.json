@@ -1,0 +1,544 @@
+{
+  "meta": {
+    "options": {
+      "linkedFile": "/views/checkout.ejs",
+      "linkedForm": "frmRegister"
+    },
+    "$_POST": [
+      {
+        "type": "text",
+        "fieldName": "first_name",
+        "options": {
+          "rules": {
+            "core:required": {}
+          }
+        },
+        "name": "first_name"
+      },
+      {
+        "type": "text",
+        "fieldName": "last_name",
+        "options": {
+          "rules": {
+            "core:required": {}
+          }
+        },
+        "name": "last_name"
+      },
+      {
+        "type": "text",
+        "fieldName": "street",
+        "options": {
+          "rules": {
+            "core:required": {}
+          }
+        },
+        "name": "street"
+      },
+      {
+        "type": "text",
+        "fieldName": "city",
+        "options": {
+          "rules": {
+            "core:required": {}
+          }
+        },
+        "name": "city"
+      },
+      {
+        "type": "text",
+        "fieldName": "postcode",
+        "options": {
+          "rules": {
+            "core:required": {}
+          }
+        },
+        "name": "postcode"
+      },
+      {
+        "type": "text",
+        "fieldName": "country",
+        "options": {
+          "rules": {
+            "core:required": {}
+          }
+        },
+        "name": "country"
+      },
+      {
+        "type": "text",
+        "fieldName": "email",
+        "options": {
+          "rules": {
+            "core:required": {},
+            "core:email": {}
+          }
+        },
+        "name": "email"
+      },
+      {
+        "type": "text",
+        "fieldName": "phone",
+        "name": "phone"
+      },
+      {
+        "type": "number",
+        "fieldName": "id",
+        "options": {
+          "rules": {}
+        },
+        "name": "id"
+      },
+      {
+        "type": "text",
+        "fieldName": "company",
+        "name": "company"
+      },
+      {
+        "type": "text",
+        "fieldName": "position",
+        "name": "position"
+      },
+      {
+        "type": "text",
+        "fieldName": "title",
+        "options": {
+          "rules": {
+            "core:required": {}
+          }
+        },
+        "name": "title"
+      },
+      {
+        "type": "text",
+        "fieldName": "password",
+        "options": {
+          "rules": {
+            "core:required": {}
+          }
+        },
+        "name": "password"
+      }
+    ],
+    "$_SESSION": [
+      {
+        "type": "text",
+        "name": "myKey"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      {
+        "name": "email",
+        "module": "core",
+        "action": "setvalue",
+        "options": {
+          "value": "{{$_POST.email.lowercase()}}"
+        },
+        "meta": [],
+        "outputType": "text"
+      },
+      {
+        "name": "",
+        "module": "core",
+        "action": "condition",
+        "options": {
+          "if": "{{$_POST.id>=1}}",
+          "then": {
+            "steps": {
+              "name": "updateCustomer",
+              "module": "dbupdater",
+              "action": "update",
+              "options": {
+                "connection": "db",
+                "sql": {
+                  "type": "update",
+                  "values": [
+                    {
+                      "table": "customers",
+                      "column": "first_name",
+                      "type": "text",
+                      "value": "{{$_POST.first_name}}"
+                    },
+                    {
+                      "table": "customers",
+                      "column": "last_name",
+                      "type": "text",
+                      "value": "{{$_POST.last_name}}"
+                    },
+                    {
+                      "table": "customers",
+                      "column": "street",
+                      "type": "text",
+                      "value": "{{$_POST.street}}"
+                    },
+                    {
+                      "table": "customers",
+                      "column": "city",
+                      "type": "text",
+                      "value": "{{$_POST.city}}"
+                    },
+                    {
+                      "table": "customers",
+                      "column": "postcode",
+                      "type": "text",
+                      "value": "{{$_POST.postcode}}"
+                    },
+                    {
+                      "table": "customers",
+                      "column": "country",
+                      "type": "text",
+                      "value": "{{$_POST.country}}"
+                    },
+                    {
+                      "table": "customers",
+                      "column": "email",
+                      "type": "text",
+                      "value": "{{email}}"
+                    },
+                    {
+                      "table": "customers",
+                      "column": "phone",
+                      "type": "text",
+                      "value": "{{$_POST.phone}}"
+                    }
+                  ],
+                  "table": "customers",
+                  "wheres": {
+                    "condition": "AND",
+                    "rules": [
+                      {
+                        "id": "id",
+                        "type": "double",
+                        "operator": "equal",
+                        "value": "{{$_POST.id}}",
+                        "data": {
+                          "column": "id"
+                        },
+                        "operation": "="
+                      }
+                    ]
+                  },
+                  "returning": "id",
+                  "query": "update `customers` set `first_name` = ?, `last_name` = ?, `street` = ?, `city` = ?, `postcode` = ?, `country` = ?, `email` = ?, `phone` = ? where `id` = ? returning `id`",
+                  "params": [
+                    {
+                      "name": ":P1",
+                      "type": "expression",
+                      "value": "{{$_POST.first_name}}",
+                      "test": ""
+                    },
+                    {
+                      "name": ":P2",
+                      "type": "expression",
+                      "value": "{{$_POST.last_name}}",
+                      "test": ""
+                    },
+                    {
+                      "name": ":P3",
+                      "type": "expression",
+                      "value": "{{$_POST.street}}",
+                      "test": ""
+                    },
+                    {
+                      "name": ":P4",
+                      "type": "expression",
+                      "value": "{{$_POST.city}}",
+                      "test": ""
+                    },
+                    {
+                      "name": ":P5",
+                      "type": "expression",
+                      "value": "{{$_POST.postcode}}",
+                      "test": ""
+                    },
+                    {
+                      "name": ":P6",
+                      "type": "expression",
+                      "value": "{{$_POST.country}}",
+                      "test": ""
+                    },
+                    {
+                      "name": ":P7",
+                      "type": "expression",
+                      "value": "{{email}}",
+                      "test": ""
+                    },
+                    {
+                      "name": ":P8",
+                      "type": "expression",
+                      "value": "{{$_POST.phone}}",
+                      "test": ""
+                    },
+                    {
+                      "operator": "equal",
+                      "type": "expression",
+                      "name": ":P9",
+                      "value": "{{$_POST.id}}",
+                      "test": ""
+                    }
+                  ]
+                }
+              },
+              "meta": [
+                {
+                  "name": "affected",
+                  "type": "number"
+                }
+              ]
+            }
+          },
+          "else": {
+            "steps": [
+              {
+                "name": "",
+                "module": "core",
+                "action": "condition",
+                "options": {
+                  "if": "{{$_POST.position.length()>0}}",
+                  "then": {
+                    "steps": {
+                      "name": "Unauthorised_copy",
+                      "module": "core",
+                      "action": "response",
+                      "options": {
+                        "status": 401
+                      }
+                    }
+                  }
+                },
+                "outputType": "boolean"
+              },
+              {
+                "name": "",
+                "module": "core",
+                "action": "condition",
+                "options": {
+                  "if": "{{$_POST.title!=$_SESSION.myKey}}",
+                  "then": {
+                    "steps": {
+                      "name": "Unauthorised",
+                      "module": "core",
+                      "action": "response",
+                      "options": {
+                        "status": 401
+                      }
+                    }
+                  }
+                },
+                "outputType": "boolean"
+              },
+              {
+                "name": "validate",
+                "module": "validator",
+                "action": "validate",
+                "options": {
+                  "data": [
+                    {
+                      "name": "validate_1",
+                      "value": "{{email}}",
+                      "rules": {
+                        "db:notexists": {
+                          "param": {
+                            "connection": "db",
+                            "table": "customers",
+                            "column": "email"
+                          },
+                          "message": "Email already exists in database."
+                        }
+                      },
+                      "fieldName": "email"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "hash",
+                "module": "crypto",
+                "action": "passwordHash",
+                "options": {
+                  "password": "{{$_POST.password}}"
+                },
+                "outputType": "text"
+              },
+              {
+                "name": "insertCustomers",
+                "module": "dbupdater",
+                "action": "insert",
+                "options": {
+                  "connection": "db",
+                  "sql": {
+                    "type": "insert",
+                    "values": [
+                      {
+                        "table": "customers",
+                        "column": "first_name",
+                        "type": "text",
+                        "value": "{{$_POST.first_name}}",
+                        "recid": 1
+                      },
+                      {
+                        "table": "customers",
+                        "column": "last_name",
+                        "type": "text",
+                        "value": "{{$_POST.last_name}}",
+                        "recid": 2
+                      },
+                      {
+                        "table": "customers",
+                        "column": "street",
+                        "type": "text",
+                        "value": "{{$_POST.street}}",
+                        "recid": 3
+                      },
+                      {
+                        "table": "customers",
+                        "column": "city",
+                        "type": "text",
+                        "value": "{{$_POST.city}}",
+                        "recid": 4
+                      },
+                      {
+                        "table": "customers",
+                        "column": "postcode",
+                        "type": "text",
+                        "value": "{{$_POST.postcode}}",
+                        "recid": 5
+                      },
+                      {
+                        "table": "customers",
+                        "column": "country",
+                        "type": "text",
+                        "value": "{{$_POST.country}}",
+                        "recid": 6
+                      },
+                      {
+                        "table": "customers",
+                        "column": "email",
+                        "type": "text",
+                        "value": "{{email}}",
+                        "recid": 7
+                      },
+                      {
+                        "table": "customers",
+                        "column": "phone",
+                        "type": "text",
+                        "value": "{{$_POST.phone}}",
+                        "recid": 8
+                      },
+                      {
+                        "table": "customers",
+                        "column": "creation_date",
+                        "type": "date",
+                        "value": "{{NOW}}",
+                        "recid": 9
+                      },
+                      {
+                        "table": "customers",
+                        "column": "password",
+                        "type": "text",
+                        "value": "{{hash}}",
+                        "recid": 10
+                      }
+                    ],
+                    "table": "customers",
+                    "returning": "id",
+                    "query": "insert into `customers` (`city`, `country`, `creation_date`, `email`, `first_name`, `last_name`, `password`, `phone`, `postcode`, `street`) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) returning `id`",
+                    "params": [
+                      {
+                        "name": ":P1",
+                        "type": "expression",
+                        "value": "{{$_POST.first_name}}",
+                        "test": ""
+                      },
+                      {
+                        "name": ":P2",
+                        "type": "expression",
+                        "value": "{{$_POST.last_name}}",
+                        "test": ""
+                      },
+                      {
+                        "name": ":P3",
+                        "type": "expression",
+                        "value": "{{$_POST.street}}",
+                        "test": ""
+                      },
+                      {
+                        "name": ":P4",
+                        "type": "expression",
+                        "value": "{{$_POST.city}}",
+                        "test": ""
+                      },
+                      {
+                        "name": ":P5",
+                        "type": "expression",
+                        "value": "{{$_POST.postcode}}",
+                        "test": ""
+                      },
+                      {
+                        "name": ":P6",
+                        "type": "expression",
+                        "value": "{{$_POST.country}}",
+                        "test": ""
+                      },
+                      {
+                        "name": ":P7",
+                        "type": "expression",
+                        "value": "{{email}}",
+                        "test": ""
+                      },
+                      {
+                        "name": ":P8",
+                        "type": "expression",
+                        "value": "{{$_POST.phone}}",
+                        "test": ""
+                      },
+                      {
+                        "name": ":P9",
+                        "type": "expression",
+                        "value": "{{NOW}}",
+                        "test": ""
+                      },
+                      {
+                        "name": ":P10",
+                        "type": "expression",
+                        "value": "{{hash}}",
+                        "test": ""
+                      }
+                    ]
+                  }
+                },
+                "meta": [
+                  {
+                    "name": "identity",
+                    "type": "text"
+                  },
+                  {
+                    "name": "affected",
+                    "type": "number"
+                  }
+                ]
+              },
+              {
+                "name": "identity",
+                "module": "auth",
+                "action": "login",
+                "options": {
+                  "provider": "customers",
+                  "username": "{{email}}"
+                },
+                "output": true,
+                "meta": []
+              }
+            ]
+          }
+        },
+        "outputType": "boolean"
+      }
+    ]
+  },
+  "usedModules": {
+    "argon2": "^0.30.2"
+  }
+}

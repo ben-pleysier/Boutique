@@ -1,0 +1,24 @@
+{
+  "name": "customers",
+  "module": "auth",
+  "action": "provider",
+  "options": {
+    "secret": "WXbRccKbNK0QbXP",
+    "provider": "Database",
+    "connection": "db",
+    "users": {
+      "table": "customers",
+      "identity": "id",
+      "username": "email",
+      "password": "password"
+    },
+    "permissions": {},
+    "passwordVerify": true
+  },
+  "meta": [
+    {
+      "name": "identity",
+      "type": "text"
+    }
+  ]
+}

@@ -1,0 +1,134 @@
+{
+  "name": "",
+  "module": "core",
+  "action": "condition",
+  "options": {
+    "if": "{{customer_identity}}",
+    "then": {
+      "steps": {
+        "name": "query",
+        "module": "dbconnector",
+        "action": "single",
+        "options": {
+          "connection": "db",
+          "sql": {
+            "type": "select",
+            "columns": [
+              {
+                "table": "customers",
+                "column": "first_name"
+              },
+              {
+                "table": "customers",
+                "column": "last_name"
+              },
+              {
+                "table": "customers",
+                "column": "street"
+              },
+              {
+                "table": "customers",
+                "column": "city"
+              },
+              {
+                "table": "customers",
+                "column": "postcode"
+              },
+              {
+                "table": "customers",
+                "column": "country"
+              },
+              {
+                "table": "customers",
+                "column": "email"
+              },
+              {
+                "table": "customers",
+                "column": "phone"
+              }
+            ],
+            "params": [
+              {
+                "operator": "equal",
+                "type": "expression",
+                "name": ":P1",
+                "value": "{{customer_identity}}",
+                "test": ""
+              }
+            ],
+            "table": {
+              "name": "customers"
+            },
+            "primary": "id",
+            "joins": [],
+            "wheres": {
+              "condition": "AND",
+              "rules": [
+                {
+                  "id": "customers.id",
+                  "field": "customers.id",
+                  "type": "double",
+                  "operator": "equal",
+                  "value": "{{customer_identity}}",
+                  "data": {
+                    "table": "customers",
+                    "column": "id",
+                    "type": "number",
+                    "columnObj": {
+                      "type": "increments",
+                      "primary": true,
+                      "unique": false,
+                      "nullable": false,
+                      "name": "id"
+                    }
+                  },
+                  "operation": "="
+                }
+              ],
+              "conditional": null,
+              "valid": true
+            },
+            "query": "select `first_name`, `last_name`, `street`, `city`, `postcode`, `country`, `email`, `phone` from `customers` where `customers`.`id` = ?"
+          }
+        },
+        "output": true,
+        "meta": [
+          {
+            "type": "text",
+            "name": "first_name"
+          },
+          {
+            "type": "text",
+            "name": "last_name"
+          },
+          {
+            "type": "text",
+            "name": "street"
+          },
+          {
+            "type": "text",
+            "name": "city"
+          },
+          {
+            "type": "text",
+            "name": "postcode"
+          },
+          {
+            "type": "text",
+            "name": "country"
+          },
+          {
+            "type": "text",
+            "name": "email"
+          },
+          {
+            "type": "text",
+            "name": "phone"
+          }
+        ],
+        "outputType": "object"
+      }
+    }
+  },
+  "outputType": "boolean"
+}

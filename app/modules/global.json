@@ -1,0 +1,10 @@
+{
+  "name": "customer_identity",
+  "module": "auth",
+  "action": "identify",
+  "options": {
+    "provider": "customers"
+  },
+  "output": true,
+  "meta": []
+}

@@ -1,0 +1,77 @@
+{
+  "meta": {
+    "$_POST": [
+      {
+        "type": "text",
+        "options": {
+          "rules": {
+            "core:required": {}
+          }
+        },
+        "name": "username"
+      },
+      {
+        "type": "text",
+        "name": "email"
+      },
+      {
+        "type": "text",
+        "name": "password"
+      },
+      {
+        "type": "text",
+        "name": "remember"
+      }
+    ],
+    "$_SESSION": [
+      {
+        "type": "text",
+        "name": "myKey"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      {
+        "name": "",
+        "module": "core",
+        "action": "condition",
+        "options": {
+          "if": "{{$_POST.username!=$_SESSION.myKey}}",
+          "then": {
+            "steps": {
+              "name": "Unauthorised",
+              "module": "core",
+              "action": "response",
+              "options": {
+                "status": 401
+              }
+            }
+          }
+        },
+        "outputType": "boolean"
+      },
+      {
+        "name": "email",
+        "module": "core",
+        "action": "setvalue",
+        "options": {
+          "value": "{{$_POST.email.lowercase()}}"
+        },
+        "meta": [],
+        "outputType": "text"
+      },
+      {
+        "name": "identity",
+        "module": "auth",
+        "action": "login",
+        "options": {
+          "provider": "customers",
+          "username": "{{email}}"
+        },
+        "output": true,
+        "meta": []
+      }
+    ]
+  }
+}
