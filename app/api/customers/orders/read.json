@@ -1,0 +1,84 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "queryOrders",
+      "module": "dbconnector",
+      "action": "select",
+      "options": {
+        "connection": "db",
+        "sql": {
+          "type": "select",
+          "columns": [
+            {
+              "table": "customer_orders",
+              "column": "*"
+            }
+          ],
+          "params": [],
+          "table": {
+            "name": "customer_orders"
+          },
+          "primary": "id",
+          "joins": [],
+          "query": "select * from `customer_orders`"
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "type": "number",
+          "name": "id"
+        },
+        {
+          "type": "date",
+          "name": "order_date"
+        },
+        {
+          "type": "number",
+          "name": "amount"
+        },
+        {
+          "type": "text",
+          "name": "street"
+        },
+        {
+          "type": "text",
+          "name": "city"
+        },
+        {
+          "type": "text",
+          "name": "postcode"
+        },
+        {
+          "type": "text",
+          "name": "country"
+        },
+        {
+          "type": "date",
+          "name": "shipped_date"
+        },
+        {
+          "type": "text",
+          "name": "tracking_number"
+        },
+        {
+          "type": "number",
+          "name": "customer_id"
+        }
+      ],
+      "outputType": "array"
+    }
+  }
+}

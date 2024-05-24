@@ -1,0 +1,306 @@
+{
+  "meta": {
+    "$_POST": [
+      {
+        "type": "text",
+        "fieldName": "name",
+        "options": {
+          "rules": {
+            "core:required": {}
+          }
+        },
+        "name": "name"
+      },
+      {
+        "type": "number",
+        "fieldName": "price",
+        "name": "price"
+      },
+      {
+        "type": "text",
+        "fieldName": "short_description",
+        "name": "short_description"
+      },
+      {
+        "type": "text",
+        "fieldName": "long_description",
+        "name": "long_description"
+      },
+      {
+        "type": "text",
+        "fieldName": "image",
+        "name": "image"
+      },
+      {
+        "type": "boolean",
+        "fieldName": "live",
+        "name": "live"
+      },
+      {
+        "type": "boolean",
+        "fieldName": "featured",
+        "name": "fearured"
+      },
+      {
+        "type": "number",
+        "fieldName": "category_id",
+        "options": {
+          "rules": {
+            "core:required": {}
+          }
+        },
+        "name": "category_id"
+      },
+      {
+        "type": "number",
+        "fieldName": "id",
+        "name": "id"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "",
+      "module": "core",
+      "action": "condition",
+      "options": {
+        "if": "{{$_POST.id>=1}}",
+        "then": {
+          "steps": {
+            "name": "updateProduct",
+            "module": "dbupdater",
+            "action": "update",
+            "options": {
+              "connection": "db",
+              "sql": {
+                "type": "update",
+                "values": [
+                  {
+                    "table": "category_products",
+                    "column": "name",
+                    "type": "text",
+                    "value": "{{$_POST.name}}"
+                  },
+                  {
+                    "table": "category_products",
+                    "column": "price",
+                    "type": "number",
+                    "value": "{{$_POST.price}}"
+                  },
+                  {
+                    "table": "category_products",
+                    "column": "short_description",
+                    "type": "text",
+                    "value": "{{$_POST.short_description}}"
+                  },
+                  {
+                    "table": "category_products",
+                    "column": "long_description",
+                    "type": "text",
+                    "value": "{{$_POST.long_description}}"
+                  },
+                  {
+                    "table": "category_products",
+                    "column": "image",
+                    "type": "text",
+                    "value": "{{$_POST.image}}"
+                  },
+                  {
+                    "table": "category_products",
+                    "column": "update_date",
+                    "type": "date",
+                    "value": "{{NOW}}"
+                  },
+                  {
+                    "table": "category_products",
+                    "column": "live",
+                    "type": "boolean",
+                    "value": "{{$_POST.live}}"
+                  },
+                  {
+                    "table": "category_products",
+                    "column": "fearured",
+                    "type": "boolean",
+                    "value": "{{$_POST.fearured}}"
+                  },
+                  {
+                    "table": "category_products",
+                    "column": "category_id",
+                    "type": "number",
+                    "value": "{{$_POST.category_id}}"
+                  }
+                ],
+                "table": "category_products",
+                "wheres": {
+                  "condition": "AND",
+                  "rules": [
+                    {
+                      "id": "id",
+                      "type": "double",
+                      "operator": "equal",
+                      "value": "{{$_POST.id}}",
+                      "data": {
+                        "column": "id"
+                      },
+                      "operation": "="
+                    }
+                  ]
+                },
+                "returning": "id",
+                "query": "update `category_products` set `name` = ?, `price` = ?, `short_description` = ?, `long_description` = ?, `image` = ?, `update_date` = ?, `live` = ?, `fearured` = ?, `category_id` = ? where `id` = ?",
+                "params": [
+                  {
+                    "name": ":P1",
+                    "type": "expression",
+                    "value": "{{$_POST.name}}",
+                    "test": ""
+                  },
+                  {
+                    "name": ":P2",
+                    "type": "expression",
+                    "value": "{{$_POST.price}}",
+                    "test": ""
+                  },
+                  {
+                    "name": ":P3",
+                    "type": "expression",
+                    "value": "{{$_POST.short_description}}",
+                    "test": ""
+                  },
+                  {
+                    "name": ":P4",
+                    "type": "expression",
+                    "value": "{{$_POST.long_description}}",
+                    "test": ""
+                  },
+                  {
+                    "name": ":P5",
+                    "type": "expression",
+                    "value": "{{$_POST.image}}",
+                    "test": ""
+                  },
+                  {
+                    "name": ":P6",
+                    "type": "expression",
+                    "value": "{{NOW}}",
+                    "test": ""
+                  },
+                  {
+                    "name": ":P7",
+                    "type": "expression",
+                    "value": "{{$_POST.live}}",
+                    "test": ""
+                  },
+                  {
+                    "name": ":P8",
+                    "type": "expression",
+                    "value": "{{$_POST.fearured}}",
+                    "test": ""
+                  },
+                  {
+                    "name": ":P9",
+                    "type": "expression",
+                    "value": "{{$_POST.category_id}}",
+                    "test": ""
+                  },
+                  {
+                    "operator": "equal",
+                    "type": "expression",
+                    "name": ":P10",
+                    "value": "{{$_POST.id}}",
+                    "test": ""
+                  }
+                ]
+              }
+            },
+            "meta": [
+              {
+                "name": "affected",
+                "type": "number"
+              }
+            ]
+          }
+        },
+        "else": {
+          "steps": {
+            "name": "insertProduct",
+            "module": "dbupdater",
+            "action": "insert",
+            "options": {
+              "connection": "db",
+              "sql": {
+                "type": "insert",
+                "values": [
+                  {
+                    "table": "category_products",
+                    "column": "name",
+                    "type": "text",
+                    "value": "{{$_POST.name}}"
+                  },
+                  {
+                    "table": "category_products",
+                    "column": "update_date",
+                    "type": "date",
+                    "value": "{{NOW}}"
+                  },
+                  {
+                    "table": "category_products",
+                    "column": "live",
+                    "type": "boolean",
+                    "value": "0"
+                  },
+                  {
+                    "table": "category_products",
+                    "column": "fearured",
+                    "type": "boolean",
+                    "value": "0"
+                  },
+                  {
+                    "table": "category_products",
+                    "column": "category_id",
+                    "type": "number",
+                    "value": "{{$_POST.category_id}}"
+                  }
+                ],
+                "table": "category_products",
+                "returning": "id",
+                "query": "insert into `category_products` (`category_id`, `fearured`, `live`, `name`, `update_date`) values (?, ?, ?, ?, ?)",
+                "params": [
+                  {
+                    "name": ":P1",
+                    "type": "expression",
+                    "value": "{{$_POST.name}}",
+                    "test": ""
+                  },
+                  {
+                    "name": ":P2",
+                    "type": "expression",
+                    "value": "{{NOW}}",
+                    "test": ""
+                  },
+                  {
+                    "name": ":P3",
+                    "type": "expression",
+                    "value": "{{$_POST.category_id}}",
+                    "test": ""
+                  }
+                ]
+              }
+            },
+            "meta": [
+              {
+                "name": "identity",
+                "type": "text"
+              },
+              {
+                "name": "affected",
+                "type": "number"
+              }
+            ]
+          }
+        }
+      },
+      "outputType": "boolean"
+    }
+  }
+}
