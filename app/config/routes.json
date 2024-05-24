@@ -1,0 +1,50 @@
+{
+  "routes": [
+    {
+      "path": "/",
+      "page": "index",
+      "routeType": "page",
+      "layout": "main"
+    },
+    {
+      "path": "/dashboard",
+      "page": "dashboard/index",
+      "layout": "admin"
+    },
+    {
+      "path": "/dashboard/categories",
+      "page": "dashboard/categories",
+      "layout": "admin"
+    },
+    {
+      "path": "/dashboard/products",
+      "page": "dashboard/products",
+      "layout": "admin"
+    },
+    {
+      "path": "/dashboard/customers",
+      "page": "dashboard/customers",
+      "layout": "admin"
+    },
+    {
+      "path": "/dashboard/orders",
+      "page": "dashboard/orders",
+      "layout": "admin"
+    },
+    {
+      "path": "/about",
+      "page": "about",
+      "layout": "main"
+    },
+    {
+      "path": "/shop",
+      "page": "shop",
+      "layout": "main"
+    },
+    {
+      "path": "/contact",
+      "page": "contact",
+      "layout": "main"
+    }
+  ]
+}

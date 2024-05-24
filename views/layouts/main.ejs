@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+
+<head>
+  <script src="/dmxAppConnect/dmxAppConnect.js"></script>
+  <script src="/dmxAppConnect/dmxDataTraversal/dmxDataTraversal.js" defer></script>
+
+  <script src="/dmxAppConnect/dmxFormatter/dmxFormatter.js" defer></script>
+
+  <base href="/">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Untitled Document</title>
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous" />
+  <link rel="stylesheet" href="/bootstrap/5/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+
+
+  <script src="/dmxAppConnect/dmxRouting/dmxRouting.js" defer></script>
+  <script src="/dmxAppConnect/dmxBootstrap5Navigation/dmxBootstrap5Navigation.js" defer></script>
+  <script src="/dmxAppConnect/dmxBootstrap5Theme/dmxBootstrap5Theme.js" defer></script>
+  <script src="/dmxAppConnect/dmxDatastore/dmxDatastore.js" defer></script>
+  <script src="/dmxAppConnect/dmxBootstrap5Modal/dmxBootstrap5Modal.js" defer></script>
+  <link rel="stylesheet" href="/dmxAppConnect/dmxBootstrap5TableGenerator/dmxBootstrap5TableGenerator.css" />
+</head>
+
+<body is="dmx-app" id="main">
+  <dmx-datastore id="dsCart"></dmx-datastore>
+  <dmx-serverconnect id="serverconnectProducts" url="/api/products/products/read"></dmx-serverconnect>
+
+  <div is="dmx-bs5-theme" id="bs5theme1"></div>
+
+  <header class="bg-body-tertiary">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <nav class="navbar navbar-expand-lg justify-content-end">
+            <a class="navbar-brand me-auto" href="/">Navbar</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar1_collapse" aria-controls="navbar1_collapse" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbar1_collapse">
+              <div class="navbar-nav">
+                <a class="nav-item nav-link active" href="/">Home</a>
+                <a class="nav-item nav-link" href="/about">About</a>
+                <a class="nav-item nav-link" href="/shop">Shop</a>
+                <a class="nav-item nav-link" href="/contact">Contact</a>
+                <div class="nav-item" is="dmx-bs5-theme-switch" id="bs5themeswitch1" manager="bs5theme1" icons="fa"></div>
+              </div>
+              <button id="btnShoppingCart" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalShoppingCart" dmx-hide="dsCart.data.isEmpty()"><i class="fas fa-shopping-cart"></i></button>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div is="dmx-view" id="content">
+      <%- await include(content, locals) %>
+    </div>
+  </main>
+  <div class="modal fade" id="modalShoppingCart" is="dmx-bs5-modal" tabindex="-1">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Shopping Cart</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="table-responsive">
+            <table class="table table-sm">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th class="text-center">Price</th>
+                  <th class="text-center">Quantity</th>
+                  <th class="text-center">Actions</th>
+                  <th class="text-end">Amount</th>
+                </tr>
+              </thead>
+              <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="dsCart.data" id="tableRepeat1">
+                <tr>
+                  <td dmx-text="name"></td>
+                  <td dmx-text="price.formatCurrency('$', '.', ',', 2)" class="text-center"></td>
+                  <td dmx-text="quantity" class="text-center"></td>
+                  <td class="text-center">
+                    <button id="btnMinus" class="btn btn-outline-primary btn-sm" dmx-on:click="dsCart.update({$id: $id},{quantity: (quantity - 1)})" dmx-bind:disabled="quantity==1"><i class="fas fa-minus"></i></button>
+                    <button id="btnPlus" class="btn btn-outline-primary btn-sm" dmx-on:click="dsCart.update({$id: $id},{quantity: (quantity + 1)})"><i class="fas fa-plus"></i></button>
+                    <button id="btnTrash" class="btn btn-outline-danger btn-sm" dmx-on:click="dsCart.delete({$id: $id})"><i class="far fa-trash-alt"></i></button>
+                  </td>
+                  <td dmx-text="(price * quantity).formatCurrency('$', '.', ',', 2)" class="text-end"></td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="5">
+                    <p class="text-end">Total Amount {{dsCart.data.sum(`(price * quantity)`).formatCurrency('$', '.', ',', 2)}}</p>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Continue Shopping</button>
+          <a class="btn btn-primary" href="/checkout">Checkout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/bootstrap/5/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

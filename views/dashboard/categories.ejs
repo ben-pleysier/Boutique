@@ -1,0 +1,82 @@
+<!-- Wappler include head-page="layouts/admin" fontawesome_5="cdn" bootstrap5="local" is="dmx-app" id="categories" appConnect="local" components="{dmxDataTraversal:{},dmxBootstrap5Collapse:{},dmxBootstrap5TableGenerator:{},dmxFormatter:{}}" -->
+<meta name="ac:route" content="/dashboard/categories">
+<dmx-serverconnect id="serverconnectCategories" url="/api/products/categories/read"></dmx-serverconnect>
+<dmx-data-detail id="data_detailCategory" dmx-bind:data="serverconnectCategories.data.queryCategories" key="id"></dmx-data-detail>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <h2>Categories</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <button id="btnAddCategory" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#collapseAddCategory" dmx-bind:disabled="!collapseAddCategory.collapsed">Add Category</button>
+            <div class="collapse mt-lg-3" id="collapseAddCategory" is="dmx-bs5-collapse">
+                <form is="dmx-serverconnect-form" id="frmAddCategory" method="post" action="/api/products/categories/upsert" dmx-generator="bootstrap5" dmx-form-type="horizontal" dmx-on:success="notifies1.success('Category has been added');serverconnectCategories.load({});collapseAddCategory.hide()">
+                    <div class="form-group mb-3 row">
+                        <label for="ins_add_categoryname" class="col-sm-2 col-form-label">Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="ins_add_categoryname" name="name" aria-describedby="ins_add_categoryname_help" placeholder="Enter Name">
+                        </div>
+                    </div>
+                    <div class="form-group mb-3 row">
+                        <div class="col-sm-2">&nbsp;</div>
+                        <div class="col-sm-10">
+                            <button id="btnCanceAddCategory" class="btn btn-secondary" dmx-on:click="collapseAddCategory.hide()">Cancel</button>
+                            <button type="submit" class="btn btn-primary" dmx-bind:disabled="state.executing">Save <span class="spinner-border spinner-border-sm" role="status" dmx-show="state.executing"></span></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-lg-4">
+            <div class="table-responsive">
+                <table class="table table-hover table-sm">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                        </tr>
+                    </thead>
+                    <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="serverconnectCategories.data.queryCategories" id="tableRepeat1">
+                        <tr dmx-on:click="data_detailCategory.select(id)">
+                            <td dmx-text="name" dmx-class:bg-primary="(id == data_detailCategory.data.id)" dmx-class:text-light="(id == data_detailCategory.data.id)"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col">
+            <form is="dmx-serverconnect-form" id="frmUpdateCategory" method="post" action="/api/products/categories/upsert" dmx-generator="bootstrap5" dmx-form-type="vertical" dmx-populate="data_detailCategory.data" dmx-on:success="notifies1.success('Category has been updated');serverconnectCategories.load({})" dmx-show="data_detailCategory.data">
+                <input type="hidden" name="id" id="upd_catgory_id" dmx-bind:value="data_detailCategory.data.id">
+                <div class="form-group mb-3">
+                    <label for="upd_catgory_name">Name</label>
+                    <input type="text" class="form-control" id="upd_catgory_name" name="name" dmx-bind:value="data_detailCategory.data.name" aria-describedby="upd_catgory_name_help" placeholder="Enter Name">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="upd_catgory_short_description">Short description</label>
+                    <input type="text" class="form-control" id="upd_catgory_short_description" name="short_description" dmx-bind:value="data_detailCategory.data.short_description" aria-describedby="upd_catgory_short_description_help" placeholder="Enter Short description">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="upd_catgory_long_description">Long description</label>
+                    <textarea id="upd_catgory_long_description" name="long_description" dmx-bind:value="data_detailCategory.data.long_description" class="form-control"></textarea>
+                </div>
+
+                <div class="form-group md-3 mb-3"> <label for="input1" class="form-label">Image</label>
+                    <div id="conditionalImage" is="dmx-if" dmx-bind:condition="data_detailCategory.data.image">
+                        <img width="300" height="200" class="img-fluid" dmx-bind:src="'uploads/images/categories/'+data_detailCategory.data.image" dmx-bind:alt="data_detailCategory.data.name">
+                        <p class="mt-2 mb-0">To Change the Image</p>
+                    </div><input id="upd_category_image" name="image" type="file" class="form-control">
+                </div>
+                <div class="form-group mb-3">
+                    <button type="submit" class="btn btn-primary" dmx-bind:value="data_detailCategory.data.Save" dmx-bind:disabled="state.executing">Save <span class="spinner-border spinner-border-sm" role="status" dmx-show="state.executing"></span></button>
+                    <button id="btnDeleteCategory" class="btn btn-danger" dmx-on:click="frmDeleteCategory.submit()">Delete</button>
+                </div>
+            </form>
+            <form is="dmx-serverconnect-form" id="frmDeleteCategory" method="post" action="/api/products/categories/delete" dmx-generator="bootstrap5" dmx-form-type="horizontal" dmx-populate="data_detailCategory.data" dmx-on:success="notifies1.success('Category has been deleted');serverconnectCategories.load({})" onsubmit="return confirm('Are you sure?')">
+                <input type="hidden" name="id" id="inp_id" dmx-bind:value="data_detailCategory.data.id">
+            </form>
+        </div>
+    </div>
+</div>
