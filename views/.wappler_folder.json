@@ -1,0 +1,30 @@
+{
+  "shop.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  },
+  "contact.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  },
+  "about.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  },
+  "About.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  },
+  "Shop.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  },
+  "junk.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  },
+  "checkout.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  }
+}

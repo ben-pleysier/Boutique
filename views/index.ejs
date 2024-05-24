@@ -1,0 +1,41 @@
+<!-- Wappler include head-page="layouts/main" fontawesome_5="cdn" bootstrap5="local" is="dmx-app" id="index" appConnect="local" components="{dmxDataTraversal:{},dmxFormatter:{}}" -->
+<dmx-data-view id="data_viewFeatured" dmx-bind:data="serverconnectProducts.data.queryProducts" filter="live==1&amp;&amp;(featured)"></dmx-data-view>
+<header class="bg-primary-subtle" role="banner">
+  <div class="container">
+    <div class="row">
+      <div class="col text-end">
+        <img src="/assets/images/female-pointing.webp" width="500" height="587" alt="Woman Pointing" class="img-fluid mt-4">
+      </div>
+      <div class="col align-self-center">
+        <h1 class="display-1 fw-bold">Autumn Collection</h1>
+      </div>
+    </div>
+  </div>
+</header>
+<section>
+  <div class="container">
+    <div class="row mt-4">
+      <div class="col">
+        <h2 class="h1">Featured Products</h2>
+      </div>
+    </div>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 gy-4" is="dmx-repeat" id="repeatProducts" dmx-bind:repeat="data_viewFeatured.data">
+      <div class="col">
+        <div class="card h-100">
+          <img class="card-img-top" alt="Card image cap" dmx-bind:src="'uploads/images/products/'+id+'/thumbs/'+image">
+          <div class="card-body">
+            <h4 class="card-title" dmx-text="name">Card title</h4>
+            <p class="card-text" dmx-text="short_description">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          </div>
+          <div class="card-footer">
+            <div class="d-flex justify-content-between align-items-baseline">
+              <p dmx-text="price.toNumber().formatCurrency('$', '.', ',', 2)" class="fs-4">A nice paragraph</p>
+              <button id="btnAddToCart" class="btn btn-primary" dmx-on:click="dsCart.upsert({id: id},{id: id, name: name, price: price, quantity: `quantity + 1`});modalShoppingCart.show()">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<meta name="ac:route" content="/">
