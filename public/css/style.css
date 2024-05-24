@@ -1,0 +1,27 @@
+:root {
+  --offcanvas-width: 250px;
+  --header-height: 50px;
+}
+#admin header {
+  height: var(--header-height);
+}
+#admin main {
+  margin-top: var(--header-height);
+}
+#admin .offcanvas {
+  width: var(--offcanvas-width);
+}
+@media (min-width: 992px) {
+  #admin main {
+    margin-left: var(--offcanvas-width);
+  }
+  #admin .offcanvas {
+    transform: none;
+    visibility: visible !important;
+    top: var(--header-height);
+    height: calc(100% - var(--header-height));
+  }
+  #admin .offcanvas-backdrop::before {
+    display: none;
+  }
+}

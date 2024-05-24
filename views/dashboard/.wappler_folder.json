@@ -1,0 +1,22 @@
+{
+  "index.ejs": {
+    "layoutPage": "admin",
+    "description": ""
+  },
+  "categories.ejs": {
+    "layoutPage": "admin",
+    "description": ""
+  },
+  "products.ejs": {
+    "layoutPage": "admin",
+    "description": ""
+  },
+  "customers.ejs": {
+    "layoutPage": "admin",
+    "description": ""
+  },
+  "orders.ejs": {
+    "layoutPage": "admin",
+    "description": ""
+  }
+}
