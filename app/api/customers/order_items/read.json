@@ -1,0 +1,68 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "queryOrderItems",
+      "module": "dbconnector",
+      "action": "select",
+      "options": {
+        "connection": "db",
+        "sql": {
+          "type": "select",
+          "columns": [
+            {
+              "table": "customer_order_items",
+              "column": "*"
+            }
+          ],
+          "params": [],
+          "table": {
+            "name": "customer_order_items"
+          },
+          "primary": "id",
+          "joins": [],
+          "query": "select * from `customer_order_items`"
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "type": "number",
+          "name": "id"
+        },
+        {
+          "type": "number",
+          "name": "product_id"
+        },
+        {
+          "type": "text",
+          "name": "name"
+        },
+        {
+          "type": "number",
+          "name": "price"
+        },
+        {
+          "type": "number",
+          "name": "quantity"
+        },
+        {
+          "type": "number",
+          "name": "order_id"
+        }
+      ],
+      "outputType": "array"
+    }
+  }
+}
