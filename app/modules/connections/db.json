@@ -1,0 +1,16 @@
+{
+  "name": "db",
+  "module": "dbconnector",
+  "action": "connect",
+  "options": {
+    "client": "sqlite3",
+    "connection": {
+      "filename": "/db.sqlite3"
+    },
+    "tz": "utc",
+    "meta": {}
+  },
+  "fileName": "db.json",
+  "actionFilePath": "file:///C:/Users/ben/www/_tutorials/_boutique/boutique-7a/app/modules/connections/db.json",
+  "serverType": "node"
+}
