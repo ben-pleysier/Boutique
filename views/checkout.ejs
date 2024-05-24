@@ -1,0 +1,76 @@
+<!-- Wappler include head-page="layouts/main" fontawesome_5="cdn" bootstrap5="local" is="dmx-app" id="checkout" appConnect="local" components="{dmxFormatter:{},dmxBootstrap5TableGenerator:{}}" -->
+<dmx-value id="varTotal" dmx-bind:value="0"></dmx-value>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1>Checkout</h1>
+        </div>
+    </div>
+    <div class="row" dmx-show="dsCart.data.isEmpty()">
+        <div class="col">
+            <p>Your Shopping Cart is empty!</p>
+        </div>
+    </div>
+    <div class="row" dmx-hide="dsCart.data.isEmpty()">
+        <div class="col">
+            <p>So that we know who you are and where to send the goods</p>
+            <p class="mb-0">If you are an existing customer, welcome back and please log in</p>
+            <button id="btnLogIn" class="btn btn-primary w-100">Log In</button>
+            <p class="mt-4 mb-0">If this is the first time purchase, welcome and please click on `New Customer`.</p>
+            <button id="btnRegister" class="btn btn-primary w-100">New Customer</button>
+        </div>
+        <div class="col">
+            <div class="row">
+                <div class="col">
+                    <h2 class="h4">Order Summary</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th class="visually-hidden">Header</th>
+                                    <th>Name</th>
+                                    <th class="text-center">Price</th>
+                                    <th class="text-center">Qty</th>
+                                    <th scope="row" class="text-end">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody is="dmx-repeat" dmx-generator="bs5table" dmx-bind:repeat="dsCart.data" id="tableRepeatShoppingCartItems">
+                                <tr dmx-hide="serverconnectProduct.data.queryFilteredProduct.name.isEmpty()">
+                                    <td class="visually-hidden">
+                                        <dmx-serverconnect id="serverconnectProduct" url="/api/products/products/filtered_on_id" dmx-param:filter="id"></dmx-serverconnect>
+                                    </td>
+                                    <td dmx-text="serverconnectProduct.data.queryFilteredProduct.name"></td>
+                                    <td dmx-text="serverconnectProduct.data.queryFilteredProduct.price.toNumber().formatCurrency('$', '.', ',', 2)" class="text-center"></td>
+                                    <td dmx-text="quantity" class="text-center"></td>
+                                    <td class="text-end">
+                                        <input id="amount" name="amount" type="hidden" class="form-control" dmx-bind:id="'amount+'+$index" dmx-bind:value="(quantity * serverconnectProduct.data.queryFilteredProduct.price)" dmx-on:updated="varTotal.setValue((varTotal.value + value.toNumber()))">
+                                        <p dmx-text="amount.value.toNumber().formatCurrency('$', '.', ',', 2)">A nice paragraph</p>
+                                    </td>
+                                </tr>
+                                <tr dmx-show="serverconnectProduct.data.queryFilteredProduct.name.isEmpty()">
+                                    <td colspan="5">This product is no longer available</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="5" class="text-end">{{'Total Payable '+varTotal.value.toNumber().formatCurrency('$', '.', ',', 2)}}</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h4>Shipping Details</h4>
+                    <p>Please Login</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<meta name="ac:route" content="/checkout">

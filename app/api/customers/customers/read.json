@@ -1,0 +1,84 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "queryCustomers",
+      "module": "dbconnector",
+      "action": "select",
+      "options": {
+        "connection": "db",
+        "sql": {
+          "type": "select",
+          "columns": [
+            {
+              "table": "customers",
+              "column": "*"
+            }
+          ],
+          "params": [],
+          "table": {
+            "name": "customers"
+          },
+          "primary": "id",
+          "joins": [],
+          "query": "select * from `customers`"
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "type": "number",
+          "name": "id"
+        },
+        {
+          "type": "text",
+          "name": "first_name"
+        },
+        {
+          "type": "text",
+          "name": "last_name"
+        },
+        {
+          "type": "text",
+          "name": "street"
+        },
+        {
+          "type": "text",
+          "name": "city"
+        },
+        {
+          "type": "text",
+          "name": "postcode"
+        },
+        {
+          "type": "text",
+          "name": "country"
+        },
+        {
+          "type": "text",
+          "name": "email"
+        },
+        {
+          "type": "text",
+          "name": "phone"
+        },
+        {
+          "type": "date",
+          "name": "creation_date"
+        }
+      ],
+      "outputType": "array"
+    }
+  }
+}
